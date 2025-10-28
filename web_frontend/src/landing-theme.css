@@ -1,0 +1,89 @@
+:root {
+  /* Palette adapted from the landing colors you provided earlier */
+  --landing-color-1: #0f172a; /* deep navy */
+  --landing-color-2: #1e293b; /* slate-800 */
+  --landing-color-3: #0ea5e9; /* cyan-500 */
+  --landing-foreground: #ffffff;
+  --landing-accent: #60a5fa; /* light blue accent */
+  --landing-card-bg: rgba(255,255,255,0.04);
+}
+
+/* Apply full-page gradient and base typography */
+body.landing-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, var(--landing-color-1) 0%, var(--landing-color-2) 40%, var(--landing-color-3) 100%);
+  color: var(--landing-foreground);
+  font-family: 'Montserrat', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.landing-container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 28px 16px;
+}
+
+.landing-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.landing-hero-box {
+  background: linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 12px 36px rgba(2,6,23,0.45);
+}
+
+.landing-cta-row {
+  display: flex;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.btn-ghost-light {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.12);
+  color: var(--landing-foreground);
+}
+
+.hero-title {
+  margin: 0 0 6px 0;
+  font-size: 28px;
+  line-height: 1.05;
+}
+
+.hero-subtitle {
+  margin: 0;
+  color: rgba(255,255,255,0.9);
+  opacity: 0.95;
+}
+
+/* small responsive tweaks */
+@media (min-width: 768px) {
+  .hero-title { font-size: 36px; }
+}
+
+/* Make the login card and other white elements match the palette */
+.login-card, .btn-primary {
+  border-radius: 10px;
+}
+
+.btn-primary {
+  background: linear-gradient(90deg, var(--landing-color-3), #3b82f6);
+  border: none;
+  color: white;
+}
+
+.login-links a {
+  color: rgba(255,255,255,0.9);
+}
+
+/* simple utility to center main */
+.landing-main-center {
+  display: grid;
+  place-items: center;
+  padding: 48px 16px;
+}
