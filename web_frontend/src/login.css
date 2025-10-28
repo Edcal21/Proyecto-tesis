@@ -1,11 +1,12 @@
 /* Full-page background for the login screen */
 :root {
-  --login-primary: #4e54c8;
-  --login-accent: #7abbe6;
-  --login-bg-dark: #1f2649;
-  --login-card-bg: rgba(255, 255, 255, 0.08);
+  /* Backward-compatible variables; prefer landing theme vars when present */
+  --login-primary: var(--landing-color-1, #4e54c8);
+  --login-accent: var(--landing-color-3, #7abbe6);
+  --login-bg-dark: var(--landing-color-2, #1f2649);
+  --login-card-bg: var(--landing-card-bg, rgba(255, 255, 255, 0.08));
   --login-card-border: rgba(255, 255, 255, 0.16);
-  --login-card-shadow: rgba(0, 0, 0, 0.25);
+  --login-card-shadow: rgba(0, 0, 0, 0.32);
 }
 
 html, body, #root {
@@ -14,32 +15,27 @@ html, body, #root {
 
 .login-page {
   min-height: 100vh;
-  /* Layered backgrounds: image underneath + gradient overlay */
-  background-image:
-    linear-gradient(135deg, rgba(31, 38, 73, 0.55), rgba(78, 84, 200, 0.55)),
-    url('/login-bg.jpg'); /* Put your image at web_frontend/public/login-bg.jpg */
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 24px;
   box-sizing: border-box;
+  /* Use a subtle gradient that matches the landing theme */
+  background: linear-gradient(135deg, rgba(15,23,42,0.85), rgba(30,41,59,0.7));
+  background-blend-mode: overlay;
 }
 
 .login-card {
   width: 100%;
-  max-width: 360px; /* more compact */
+  max-width: 360px; /* compact */
   padding: 18px 16px; /* tighter padding */
   border-radius: 12px;
   background: var(--login-card-bg);
   border: 1px solid var(--login-card-border);
-  box-shadow: 0 10px 26px var(--login-card-shadow);
+  box-shadow: 0 12px 30px var(--login-card-shadow);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-  color: #fff;
+  color: var(--landing-foreground, #fff);
 }
 
 .login-brand {
@@ -66,8 +62,8 @@ html, body, #root {
   border-radius: 5px;
   border: 1px solid rgba(255, 255, 255, 0.25);
   outline: none;
-  background: rgba(255, 255, 255, 0.08);
-  color: #fff;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--landing-foreground, #fff);
   font-size: 13px; /* smaller text */
 }
 
@@ -82,8 +78,8 @@ html, body, #root {
   border-radius: 8px;
   border: none;
   cursor: pointer;
-  background: var(--login-accent);
-  color: #1b1b1b;
+  background: linear-gradient(90deg, var(--landing-color-3, var(--login-accent)), #3b82f6);
+  color: #fff;
   font-weight: 600;
   font-size: 14px; /* match inputs */
 }
