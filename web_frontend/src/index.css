@@ -1,0 +1,15 @@
+/* Global entry CSS for the web_frontend app.
+   This file aggregates the landing theme and component-specific styles.
+*/
+
+@import './landing-theme.css';
+@import './login.css';
+@import './login-title-anim.css';
+
+/* Optional global tweaks */
+html, body, #root {
+  height: 100%;
+}
+
+/* Ensure landing page body class is applied by components */
+/* The Home component sets the `landing-page` class on the top-level div. */
