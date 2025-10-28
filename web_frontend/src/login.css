@@ -1,0 +1,125 @@
+/* Full-page background for the login screen */
+:root {
+  --login-primary: #4e54c8;
+  --login-accent: #7abbe6;
+  --login-bg-dark: #1f2649;
+  --login-card-bg: rgba(255, 255, 255, 0.08);
+  --login-card-border: rgba(255, 255, 255, 0.16);
+  --login-card-shadow: rgba(0, 0, 0, 0.25);
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+.login-page {
+  min-height: 100vh;
+  /* Layered backgrounds: image underneath + gradient overlay */
+  background-image:
+    linear-gradient(135deg, rgba(31, 38, 73, 0.55), rgba(78, 84, 200, 0.55)),
+    url('/login-bg.jpg'); /* Put your image at web_frontend/public/login-bg.jpg */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 360px; /* more compact */
+  padding: 18px 16px; /* tighter padding */
+  border-radius: 12px;
+  background: var(--login-card-bg);
+  border: 1px solid var(--login-card-border);
+  box-shadow: 0 10px 26px var(--login-card-shadow);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: #fff;
+}
+
+.login-brand {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.login-brand img {
+  max-width: 220px; /* fit compact card */
+  width: 100%;
+  height: auto;
+}
+
+.login-title {
+  margin: 6px 0 12px 0;
+  color: var(--login-accent);
+  text-align: center;
+}
+
+.login-input {
+  width: 100%;
+  margin-bottom: 6px;
+  padding: 4px 8px; /* even smaller height */
+  border-radius: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  outline: none;
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+  font-size: 13px; /* smaller text */
+}
+
+.login-input::placeholder {
+  color: rgba(255,255,255,0.8);
+  font-size: 12.5px;
+}
+
+.login-btn {
+  width: 100%;
+  padding: 8px 10px; /* smaller height */
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  background: var(--login-accent);
+  color: #1b1b1b;
+  font-weight: 600;
+  font-size: 14px; /* match inputs */
+}
+
+.login-btn:disabled {
+  opacity: 0.8;
+  cursor: default;
+}
+
+.login-links {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 8px;
+  font-size: 13px;
+}
+
+.login-links a {
+  color: var(--login-accent);
+  text-decoration: underline;
+}
+
+/* Show/Hide password button alignment */
+.password-wrapper {
+  position: relative;
+  margin-bottom: 8px;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 10.5px; /* match smaller inputs */
+  background: transparent;
+  border: none;
+  color: rgba(255,255,255,0.9);
+  cursor: pointer;
+}

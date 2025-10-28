@@ -1,0 +1,45 @@
+{
+    "name": "EasyMQTT",
+    "version": "1.0.7",
+    "description": "Simple MQTT wrapper for ESP32, ESP8266, wemos with SSL, OTA, and Blynk-style usage",
+    "keywords": [
+        "mqtt",
+        "ssl",
+        "iot",
+        "esp32",
+        "blynk-style",
+        "ota"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "saveme1507",
+            "email": "asepsoo55@gmail.com"
+        }
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/saveme1507/EasyMQTT"
+    },
+    "frameworks": [
+        "arduino"
+    ],
+    "platforms": [
+        "espressif32",
+        "espressif8266"
+    ],
+    "dependencies": {
+        "bblanchon/ArduinoJson": "^7.4.1",
+        "knolleary/PubSubClient": "^2.8",
+        "arduino-libraries/ArduinoHttpClient": "^0.4.0"
+    },
+    "export": {
+        "include": [
+            "src",
+            "examples",
+            "library.json",
+            "README.md",
+            "LICENSE"
+        ]
+    }
+}

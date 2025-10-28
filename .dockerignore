@@ -1,0 +1,23 @@
+# Python cache and virtualenv
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+
+# Node modules and build
+web_frontend/node_modules/
+web_frontend/dist/
+
+# VCS and IDE
+.git/
+.gitignore
+.vscode/
+
+# Env files (do not bake secrets into images)
+.env
+web_frontend/.env
+web_frontend/.env.local
+
+# OS junk
+.DS_Store
+Thumbs.db

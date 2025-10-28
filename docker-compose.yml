@@ -1,0 +1,178 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:13
+    container_name: ecg_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ecg_user
+      POSTGRES_PASSWORD: ecg_password
+      POSTGRES_DB: ecg_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ecg_user -d ecg_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  web:
+    build: .
+    container_name: ecg_backend
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      # FastAPI/JWT
+      AUTH_SECRET: "change-me"
+      REGISTRATION_SECRET: "REGISTER_SECRET_OPTIONAL"
+
+      # Database URL (SQLAlchemy)
+      DATABASE_URL: "postgresql://ecg_user:ecg_password@db:5432/ecg_db"
+
+      # Twilio (configure real values in production)
+      TWILIO_SID: ""
+      TWILIO_TOKEN: ""
+      TWILIO_API_KEY_SID: ""
+      TWILIO_API_KEY_SECRET: ""
+      TWILIO_WHATSAPP_FROM: "whatsapp:+14155238886"
+      ALERT_WHATSAPP_TO: "whatsapp:+5215555555555"
+      ADMIN_EMAIL: "emorie.aguirre@gmail.com"
+      ADMIN_WHATSAPP: "+50583797821"
+
+      # Optional: Hugging Face token if needed
+      HUGGINGFACE_HUB_TOKEN: ""
+
+    ports:
+      - "8001:8000"
+
+  streamlit_app:
+    build: .
+    container_name: ecg_streamlit_main
+    restart: unless-stopped
+    depends_on:
+      - web
+    environment:
+      API_BASE: "http://web:8000"
+      LOGIN_URL: "http://localhost:3000/login"
+      WS_URL: "ws://web:8000/ws/ecg"
+    command: ["streamlit", "run", "streamlit_ecg_app.py", "--server.port", "8501", "--server.address", "0.0.0.0"]
+    ports:
+      - "8501:8501"
+    profiles: ["ui"]
+
+  streamlit_doctor:
+    build: .
+    container_name: ecg_streamlit_doctor
+    restart: unless-stopped
+    depends_on:
+      - web
+    environment:
+      API_BASE: "http://web:8000"
+      LOGIN_URL: "http://localhost:3000/login"
+    command: ["streamlit", "run", "doctor_profile.py", "--server.port", "8502", "--server.address", "0.0.0.0"]
+    ports:
+      - "8502:8502"
+    profiles: ["ui"]
+
+  # --- Development profile with code mounts and auto-reload ---
+  web_dev:
+    build: .
+    container_name: ecg_backend_dev
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      AUTH_SECRET: "change-me-dev"
+      REGISTRATION_SECRET: "REGISTER_SECRET_OPTIONAL"
+      DATABASE_URL: "postgresql://ecg_user:ecg_password@db:5432/ecg_db"
+      TWILIO_SID: ""
+      TWILIO_TOKEN: ""
+      TWILIO_API_KEY_SID: ""
+      TWILIO_API_KEY_SECRET: ""
+      TWILIO_WHATSAPP_FROM: ""
+      ALERT_WHATSAPP_TO: ""
+      ADMIN_EMAIL: "emorie.aguirre@gmail.com"
+      ADMIN_WHATSAPP: "+50583797821"
+    command: ["uvicorn", "ecg_api.main:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+    volumes:
+      - .:/app
+    ports:
+      - "18000:8000"
+    profiles: ["dev"]
+
+  streamlit_app_dev:
+    build: .
+    container_name: ecg_streamlit_main_dev
+    restart: unless-stopped
+    depends_on:
+      - web_dev
+    environment:
+      API_BASE: "http://web_dev:8000"
+      LOGIN_URL: "http://localhost:13000/login"
+      WS_URL: "ws://web_dev:8000/ws/ecg"
+    command: ["streamlit", "run", "streamlit_ecg_app.py", "--server.port", "8501", "--server.address", "0.0.0.0"]
+    volumes:
+      - .:/app
+    ports:
+      - "18501:8501"
+    profiles: ["dev"]
+
+  streamlit_doctor_dev:
+    build: .
+    container_name: ecg_streamlit_doctor_dev
+    restart: unless-stopped
+    depends_on:
+      - web_dev
+    environment:
+      API_BASE: "http://web_dev:8000"
+      LOGIN_URL: "http://localhost:13000/login"
+    command: ["streamlit", "run", "doctor_profile.py", "--server.port", "8502", "--server.address", "0.0.0.0"]
+    volumes:
+      - .:/app
+    ports:
+      - "18502:8502"
+    profiles: ["dev"]
+
+  # --- Frontend (React) ---
+  frontend:
+    build:
+      context: ./web_frontend
+      dockerfile: Dockerfile
+      args:
+        VITE_API_BASE: "http://localhost:8001"      # UI profile API (host-mapped)
+        VITE_STREAMLIT_URL: "http://localhost:8501" # UI profile Streamlit app
+        VITE_STREAMLIT_DOCTOR_URL: "http://localhost:8502" # UI profile Streamlit doctor
+    container_name: ecg_frontend
+    depends_on:
+      - web
+      - streamlit_app
+    ports:
+      - "3000:80"
+    profiles: ["ui"]
+
+  frontend_dev:
+    image: node:18-alpine
+    working_dir: /app
+    container_name: ecg_frontend_dev
+    volumes:
+      - ./web_frontend:/app
+    environment:
+      VITE_API_BASE: "http://localhost:18000"    # Dev profile API
+      VITE_STREAMLIT_URL: "http://localhost:18501" # Dev profile Streamlit app
+      VITE_STREAMLIT_DOCTOR_URL: "http://localhost:18502" # Dev profile Streamlit doctor
+    command: sh -lc "npm install && npm run dev -- --host 0.0.0.0 --port 5173"
+    ports:
+      - "13000:5173"
+    depends_on:
+      - web_dev
+      - streamlit_app_dev
+    profiles: ["dev"]
+
+volumes:
+  pgdata:
