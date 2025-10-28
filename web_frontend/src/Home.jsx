@@ -1,29 +1,24 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Hero from './Hero';
+import Header from './landing/Header';
+import CTA from './landing/CTA';
+import Footer from './landing/Footer';
 
 export default function Home() {
   return (
-    <div className="landing-page">
-      <header className="container py-3 d-flex justify-content-between align-items-center">
-        <div className="d-flex align-items-center gap-2">
-          <img src="/medinic-logo.png" alt="MEDINIC" height={32} onError={(e)=>{ e.currentTarget.style.display='none'; }} />
-          <strong>Plataforma ECG</strong>
-        </div>
-        <nav>
-          <Link to="/login" className="btn btn-light btn-sm">Ingresar</Link>
-        </nav>
-      </header>
+    <div className="landing-page" style={{ minHeight: '100vh' }}>
+      <Header />
 
       <main className="landing-main-center">
         <div className="landing-container">
           <div className="landing-hero-box">
             <div style={{ maxWidth: 780, width: '100%', textAlign: 'left', display: 'grid', gap: 16 }}>
-          <Hero
-            title="Monitoreo, análisis y alertas en tiempo real"
-            subtitle="Conecta la Raspberry Pi, analiza ECG y visualiza resultados en Streamlit."
-            height={96}
-          />
+              <Hero
+                title="Monitoreo, análisis y alertas en tiempo real"
+                subtitle="Conecta la Raspberry Pi, analiza ECG y visualiza resultados en Streamlit."
+                height={96}
+              />
               <p className="lead hero-subtitle" style={{ marginTop: 8 }}>
                 Captura señales con AD8232 + ADS1115, procesa en FastAPI y explora métricas en Streamlit. Inicio de sesión requerido.
               </p>
@@ -36,9 +31,8 @@ export default function Home() {
         </div>
       </main>
 
-      <footer className="container py-3" style={{ opacity: 0.8, fontSize: 14 }}>
-        <span>© {new Date().getFullYear()} Proyecto-tesis — Uso educativo, no diagnóstico.</span>
-      </footer>
+      <CTA />
+      <Footer />
     </div>
   );
 }
