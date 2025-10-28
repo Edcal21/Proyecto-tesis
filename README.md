@@ -124,4 +124,5 @@ No se realiza análisis médico ni diagnóstico. Este sistema es solo educativo.
 MIT © Emorie Aguirre - UNI 
 Este proyecto puede ser usado, modificado y distribuido libremente con fines educativos y de investigación
 
-ons > I2C > Enable
+
+
