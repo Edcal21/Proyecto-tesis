@@ -23,7 +23,6 @@ export default function Home() {
                 Captura señales con AD8232 + ADS1115, procesa en FastAPI y explora métricas en Streamlit. Inicio de sesión requerido.
               </p>
               <div className="landing-cta-row">
-                <Link to="/login" className="btn btn-primary btn-lg">Ingresar</Link>
                 <a href="https://github.com/Edcal21/Proyecto-tesis" target="_blank" rel="noreferrer" className="btn btn-ghost-light btn-lg">Ver en GitHub</a>
               </div>
             </div>

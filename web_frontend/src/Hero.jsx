@@ -52,22 +52,7 @@ export default function Hero({
       <div style={{ width: height + 10, height: height, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         {animData ? (
           <Lottie animationData={animData} loop style={{ height }} />
-        ) : (
-          <>
-            <style>{`
-              @keyframes heartbeat { 0%{ transform: scale(1);} 25%{ transform: scale(1.08);} 40%{ transform: scale(1);} 60%{ transform: scale(1.08);} 100%{ transform: scale(1);} }
-            `}</style>
-            <svg
-              viewBox="0 0 24 24"
-              width={height}
-              height={height}
-              style={{ fill: '#FF6B6B', animation: 'heartbeat 1.3s ease-in-out infinite' }}
-              aria-hidden="true"
-            >
-              <path d="M12 21s-6.716-4.438-9.428-7.15C.86 12.138.5 10.91.5 9.75.5 7.126 2.626 5 5.25 5c1.52 0 2.944.664 3.9 1.72L12 9.8l2.85-3.08C15.806 5.664 17.23 5 18.75 5 21.374 5 23.5 7.126 23.5 9.75c0 1.16-.36 2.388-2.072 4.1C18.716 16.562 12 21 12 21z"/>
-            </svg>
-          </>
-        )}
+        ) : null /* Heart icon removed per request */}
       </div>
       {/* Texto a la derecha (se oculta si no hay contenido) */}
       {(title || subtitle) && (
