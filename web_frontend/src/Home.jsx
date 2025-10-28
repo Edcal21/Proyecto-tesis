@@ -16,7 +16,7 @@ export default function Home() {
             <div style={{ maxWidth: 780, width: '100%', textAlign: 'left', display: 'grid', gap: 16 }}>
               <Hero
                 title="Monitoreo, análisis y alertas en tiempo real"
-                subtitle="Conecta la Raspberry Pi, analiza ECG y visualiza resultados en Streamlit."
+                subtitle="Conecta tu dispositivo de monitoreo."
                 height={96}
               />
               <p className="lead hero-subtitle" style={{ marginTop: 8 }}>
